@@ -177,10 +177,8 @@ const LandingPage = () => {
     if (token) {
       handleUserGetByToken(token);
     }
-    console.log(userData);
   }, []);
 
-  console.log(userData);
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center font-sans">
       {/* Main Container / Browser Mockup */}
