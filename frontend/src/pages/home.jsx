@@ -118,8 +118,8 @@ function HomeComponent() {
         </div>
       </nav>
 
-      <div className="meetContainer bg-green-400">
-        <div className="leftPanel">
+      <div className="w-full h-[80vh] flex px-20 gap-10 items-center md:flex-row flex-col justify-between">
+        <div className="leftPanel  px-10">
           <div>
             <h2 className="text-5xl font-semibold ">
               Providing Quality Video Call Just Like Quality Education
@@ -137,7 +137,7 @@ function HomeComponent() {
                 onClick={() => {
                   if (meetingCode.trim() !== "") {
                     handleJoinVideoCall();
-                  }else{
+                  } else {
                     alert("Please enter a valid meeting code.");
                   }
                 }}
@@ -157,8 +157,12 @@ function HomeComponent() {
             </div>
           </div>
         </div>
-        <div className="rightPanel">
-          <img srcSet="/logo3.png" alt="" />
+        <div className="w-full h-full flex justify-center items-center">
+          <img
+            className="w-full h-full bg-cover rounded-3xl shadow-2xl"
+            src="https://i.pinimg.com/originals/56/ac/f8/56acf82c8806d08f18c3775b4c48300f.png"
+            alt=""
+          />
         </div>
       </div>
     </>
