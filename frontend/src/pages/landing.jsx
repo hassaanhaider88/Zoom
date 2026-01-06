@@ -170,7 +170,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const LandingPage = () => {
   const router = useNavigate();
 
-  const { handleUserGetByToken, userData, handleLogin } =
+  const { handleUserGetByToken, userData } =
     React.useContext(AuthContext);
   React.useEffect(() => {
     const token = localStorage.getItem("token");
@@ -187,39 +187,44 @@ const LandingPage = () => {
       <div className="w-full bg-[#F8F9FB] rounded-3xl shadow-2xl overflow-hidden border border-orange-100 relative">
         {/* Navigation */}
         <nav className="flex items-center justify-between px-12 py-8">
-          <div className="flex items-center gap-12">
-            <h1 className="text-2xl font-bold text-black tracking-tight">
-              Lumeo
-            </h1>
+          <div className="flex  items-center gap-12">
+            <img
+              src="./Logo.png"
+              alt="logo"
+              className="w-32 h-14 object-cover"
+            />
             <div className="hidden md:flex gap-8 text-gray-600 font-medium">
-              <a href="#" className="hover:text-black transition-colors">
-                Products
+              <a
+                href="https://hassaan-haider.netlify.app"
+                target="_blank"
+                className="hover:text-black transition-colors"
+              >
+                Developer
               </a>
-              <a href="#" className="hover:text-black transition-colors">
-                We're Hiring!
-              </a>
-              <a href="#" className="hover:text-black transition-colors">
+              <a
+                href="https://chat.whatsapp.com/JhqCwKwV0B5LZrcPfWOSsM?mode=ac_t"
+                target="_blank"
+                className="hover:text-black transition-colors"
+              >
                 community
               </a>
             </div>
           </div>
           <div className="flex items-center gap-8">
             {userData.username != null ? (
-              <Link
-                to="/home"
-                className="text-gray-700 font-medium hover:text-black"
-              >
-                Dashboard
+              <Link to="/home">
+                <button className="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+                  <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+                  Dashboard
+                </button>
               </Link>
             ) : (
-              <>
-                <button className="text-gray-700 font-medium hover:text-black">
-                  Sign Up
+              <Link to="/auth">
+                <button className="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+                  <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+                  Register/Login
                 </button>
-                <button className="bg-[#0A1D3C] text-white px-8 py-3 rounded-xl font-medium hover:bg-slate-800 transition-all">
-                  Sign In
-                </button>{" "}
-              </>
+              </Link>
             )}
           </div>
         </nav>
@@ -233,7 +238,7 @@ const LandingPage = () => {
               <br />
               Communication,
               <br />
-              Anytime,{" "}
+              Anytime,
               <span className="relative">
                 Anywhere!
                 {/* Hand-drawn circle effect using SVG */}
@@ -245,8 +250,8 @@ const LandingPage = () => {
                 >
                   <path
                     d="M5 30C5 15 50 5 100 5C150 5 195 15 195 30C195 45 150 55 100 55C50 55 5 45 5 30Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
+                    stroke="#670F0F"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                   />
                 </svg>
@@ -259,13 +264,21 @@ const LandingPage = () => {
             </p>
 
             <div className="flex items-center gap-6 mb-12">
-              <button className="bg-[#0A1D3C] text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:scale-105 transition-transform">
-                Start Free Trial
-                <span className="text-xs opacity-50">▼</span>
-              </button>
-              <button className="text-[#0A1D3C] font-bold border-b-2 border-[#0A1D3C] pb-1 hover:text-blue-800 transition-colors">
-                Get a live demo
-              </button>
+              {userData.username != null ? (
+                <Link to="/home">
+                  <button className="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+                    <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+                    Free Trial
+                  </button>
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <button className="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+                    <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+                    Start Free Trial
+                  </button>
+                </Link>
+              )}
             </div>
 
             <div className="flex gap-6">
@@ -311,7 +324,6 @@ const LandingPage = () => {
                     +4
                   </div>
                 </div>
-                <div className="mt-2 text-xl">🚀</div>
               </div>
 
               {/* Floating Card: Audio/Waveform */}
@@ -322,7 +334,7 @@ const LandingPage = () => {
                   alt="user"
                 />
                 <div className="flex gap-1 items-end h-6">
-                  {[3, 6, 4, 8, 5, 7, 4].map((h, i) => (
+                  {[3, 6, 4, 8, 5, 7, 4, 6, 6, 4, 8, 5, 7, 4].map((h, i) => (
                     <div
                       key={i}
                       className="w-1 bg-orange-400 rounded-full"
@@ -343,7 +355,7 @@ const LandingPage = () => {
                 <div>
                   <div className="h-1.5 w-16 bg-[#0A1D3C] rounded-full mb-1.5"></div>
                   <p className="text-[10px] text-gray-500 font-medium italic">
-                    lol, i like him
+                    i like him
                   </p>
                 </div>
               </div>
