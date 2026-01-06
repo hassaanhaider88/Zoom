@@ -1,20 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Card, CardContent, Typography, IconButton, Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 
-import { IconButton } from "@mui/material";
 export default function History() {
   const { getHistoryOfUser } = useContext(AuthContext);
-
   const [meetings, setMeetings] = useState([]);
-
   const routeTo = useNavigate();
 
   useEffect(() => {
@@ -23,56 +15,94 @@ export default function History() {
         const history = await getHistoryOfUser();
         setMeetings(history);
       } catch {
-        // IMPLEMENT SNACKBAR
+        console.log("Error fetching history");
       }
     };
-
     fetchHistory();
   }, []);
 
-  let formatDate = (dateString) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
+    return date.toLocaleDateString("en-GB");
   };
 
   return (
-    <div>
-      <IconButton
-        onClick={() => {
-          routeTo("/home");
+    <Box sx={{ p: 3, maxWidth: 900, mx: "auto" }}>
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
         }}
       >
-        <HomeIcon />
-      </IconButton>
-      {meetings.length !== 0 ? (
-        meetings.map((e, i) => {
-          return (
-            <>
-              <Card key={i} variant="outlined">
-                <CardContent>
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Code: {e.meetingCode}
-                  </Typography>
+        <div onClick={() => routeTo("/home")}>
+          <img
+            src="./Logo.png"
+            alt="logo"
+            title="Return To Home"
+            className="w-32 h-14 cursor-pointer  object-cover"
+          />
+        </div>
+        <Typography variant="h5" fontWeight={600}>
+          Meeting History
+        </Typography>
+      </Box>
 
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Date: {formatDate(e.date)}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </>
-          );
-        })
+      {/* Content */}
+      {meetings.length > 0 ? (
+        <Box sx={{ display: "grid", gap: 2 }}>
+          {meetings.map((e, i) => (
+            <Card
+              key={i}
+              variant="outlined"
+              sx={{
+                borderRadius: 2,
+                transition: "0.2s",
+                "&:hover": {
+                  boxShadow: 3,
+                },
+              }}
+            >
+              <CardContent>
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Meeting Code
+                </Typography>
+
+                <Typography variant="h6" fontWeight={500}>
+                  {e.meetingCode}
+                </Typography>
+
+                <Typography
+                  sx={{ mt: 1 }}
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  Date: {formatDate(e.date)}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
       ) : (
-        <></>
+        <Box
+          sx={{
+            textAlign: "center",
+            mt: 8,
+            color: "text.secondary",
+          }}
+        >
+          <Typography variant="h6">No meetings yet</Typography>
+          <Typography variant="body2">
+            Your meeting history will appear here
+          </Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
