@@ -76,6 +76,23 @@ const getUserHistory = async (req, res) => {
   }
 };
 
+const getUserByToken = async (req, res) => {
+  try {
+    const user = await User.findOne({ token: req.body.token });
+    if (user) {
+      res
+        .status(httpStatus.OK)
+        .json({ username: user.username, name: user.name });
+    } else {
+      res.status(httpStatus.NOT_FOUND).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: `Something went wrong ${error}` });
+  }
+};
+
 const addToHistory = async (req, res) => {
   const { token, meeting_code } = req.body;
 
@@ -95,4 +112,4 @@ const addToHistory = async (req, res) => {
   }
 };
 
-export { login, register, getUserHistory, addToHistory };
+export { login, register, getUserHistory, addToHistory, getUserByToken };
