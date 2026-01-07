@@ -1,9 +1,29 @@
-
 body {
   margin: 0;
   overflow-x: hidden;
-  
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #670f0f;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(184, 95, 31, 0.631);
+}
+
 .meetVideoContainer {
   position: relative;
   height: 100vh;
@@ -47,11 +67,20 @@ body {
 .chatRoom {
   position: absolute;
   height: 90vh;
-  right: 0;
-  background: white;
+  right: 10px;
+  /* background: white; */
   border-radius: 10px;
-  width: 30vw;
+  background-image: url("https://i.pinimg.com/originals/af/55/1f/af551fe6936628fe22ff7d0d4e9821e3.jpg");
+  background: cover;
+  width: 30%;
   padding-inline: 20px;
+  top: 10px;
+}
+
+@media screen and (max-width : 600px) {
+  .chatRoom {
+    width: 80%;
+  }
 }
 
 .chatContainer {
@@ -59,7 +88,44 @@ body {
   height: 100%;
 }
 
-.chattingArea {
-  position: absolute;
-  bottom: 0;
+.dock {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 18px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+
+  border-radius: 40px;
+  z-index: 9999;
+  scale: 1.1;
+}
+
+/* buttons */
+.dock button {
+  color: white;
+  background: rgba(255, 255, 255, 0.12);
+  transition: 0.2s ease;
+}
+
+.dock button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+  transform: translate(0px,-5px);
+}
+
+
+/* end call button */
+.endCall {
+  background: red !important;
+}
+
+.endCall:hover {
+  background: darkred !important;
 }

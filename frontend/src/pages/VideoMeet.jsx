@@ -45,7 +45,7 @@ export default function VideoMeetComponent() {
 
   let [message, setMessage] = useState("");
 
-  let [newMessages, setNewMessages] = useState(3);
+  let [newMessages, setNewMessages] = useState([]);
 
   let [askForUsername, setAskForUsername] = useState(true);
 
@@ -220,7 +220,6 @@ export default function VideoMeetComponent() {
   };
 
   let getDislayMediaSuccess = (stream) => {
-    console.log("HERE");
     try {
       window.localStream.getTracks().forEach((track) => track.stop());
     } catch (e) {
@@ -504,6 +503,15 @@ export default function VideoMeetComponent() {
     }
   };
 
+  const hanldeSendMessage = () => {
+    console.log()
+    if (message.trim() !== "") {
+      sendMessage();
+    } else {
+      alert("Message cannot be empty");
+    }
+  };
+
   return (
     <div>
       {askForUsername === true ? (
@@ -542,36 +550,77 @@ export default function VideoMeetComponent() {
         <div className={styles.meetVideoContainer}>
           {showModal ? (
             <div className={styles.chatRoom}>
-              <div className={styles.chatContainer}>
-                <h1>Chat</h1>
+              <div className={`${styles.chatContainer} overflow-hidden`}>
+                <h1 className="w-full text-center font-semibold text-2xl">
+                  Chats
+                </h1>
 
-                <div className={styles.chattingDisplay}>
+                <div
+                  className={`${styles.chattingDisplay} text-white mt-2 flex flex-col gap-2 h-[80vh] overflow-x-hidden overflow-scroll`}
+                >
                   {messages.length !== 0 ? (
                     messages.map((item, index) => {
                       console.log(messages);
                       return (
-                        <div style={{ marginBottom: "20px" }} key={index}>
-                          <p style={{ fontWeight: "bold" }}>{item.sender}</p>
-                          <p>{item.data}</p>
+                        <div
+                          style={{
+                            borderRadius: "3px 20px 20px 20px",
+                          }}
+                          className="flex bg-green-400 py-2 px-4 rounded-3xl gap-2 items-center"
+                          key={index}
+                        >
+                          <div>
+                            <svg
+                              stroke="currentColor"
+                              fill="currentColor"
+                              stroke-width="0"
+                              viewBox="0 0 448 512"
+                              height="30px"
+                              width="30px"
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="copy-svg-injected"
+                            >
+                              <path d="M383.9 308.3l23.9-62.6c4-10.5-3.7-21.7-15-21.7h-58.5c11-18.9 17.8-40.6 17.8-64v-.3c39.2-7.8 64-19.1 64-31.7 0-13.3-27.3-25.1-70.1-33-9.2-32.8-27-65.8-40.6-82.8-9.5-11.9-25.9-15.6-39.5-8.8l-27.6 13.8c-9 4.5-19.6 4.5-28.6 0L182.1 3.4c-13.6-6.8-30-3.1-39.5 8.8-13.5 17-31.4 50-40.6 82.8-42.7 7.9-70 19.7-70 33 0 12.6 24.8 23.9 64 31.7v.3c0 23.4 6.8 45.1 17.8 64H56.3c-11.5 0-19.2 11.7-14.7 22.3l25.8 60.2C27.3 329.8 0 372.7 0 422.4v44.8C0 491.9 20.1 512 44.8 512h358.4c24.7 0 44.8-20.1 44.8-44.8v-44.8c0-48.4-25.8-90.4-64.1-114.1zM176 480l-41.6-192 49.6 32 24 40-32 120zm96 0l-32-120 24-40 49.6-32L272 480zm41.7-298.5c-3.9 11.9-7 24.6-16.5 33.4-10.1 9.3-48 22.4-64-25-2.8-8.4-15.4-8.4-18.3 0-17 50.2-56 32.4-64 25-9.5-8.8-12.7-21.5-16.5-33.4-.8-2.5-6.3-5.7-6.3-5.8v-10.8c28.3 3.6 61 5.8 96 5.8s67.7-2.1 96-5.8v10.8c-.1.1-5.6 3.2-6.4 5.8z"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <p className="font-bold text-lg">{item.sender}</p>
+                            <p className="">{item.data}</p>
+                          </div>
                         </div>
                       );
                     })
                   ) : (
-                    <p>No Messages Yet</p>
+                    <p className="w-full h-full flex justify-center items-center">
+                      No Messages Yet
+                    </p>
                   )}
                 </div>
 
-                <div className={styles.chattingArea}>
-                  <TextField
+                <div className="absolute bottom-2 w-full flex gap-2 px-2">
+                  <input
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     id="outlined-basic"
-                    label="Enter Your chat"
-                    variant="outlined"
+                    className="w-full pl-2 py-2 outline-none active:outline-2 outline-red-400    rounded-3xl"
                   />
-                  <Button variant="contained" onClick={sendMessage}>
-                    Send
-                  </Button>
+                  <button className="py-3 px-2" onClick={hanldeSendMessage}>
+                    <svg
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      height="30px"
+                      width="30px"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="copy-svg-injected"
+                    >
+                      <line x1="22" y1="2" x2="11" y2="13"></line>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
@@ -579,7 +628,33 @@ export default function VideoMeetComponent() {
             <></>
           )}
 
-          <div className={styles.buttonContainers}>
+          <div className={styles.dock}>
+            <IconButton  onClick={handleVideo}>
+              {video ? <VideocamIcon /> : <VideocamOffIcon />}
+            </IconButton>
+
+            <IconButton onClick={handleAudio}>
+              {audio ? <MicIcon /> : <MicOffIcon />}
+            </IconButton>
+
+            <IconButton onClick={handleEndCall} className={styles.endCall}>
+              <CallEndIcon />
+            </IconButton>
+
+            {screenAvailable && (
+              <IconButton onClick={handleScreen}>
+                {screen ? <ScreenShareIcon /> : <StopScreenShareIcon />}
+              </IconButton>
+            )}
+
+            <Badge badgeContent={messages.length} max={9}  color="error">
+              <IconButton onClick={() => setModal(!showModal)}>
+                <ChatIcon />
+              </IconButton>
+            </Badge>
+          </div>
+
+          {/* <div className={styles.buttonContainers}>
             <IconButton onClick={handleVideo} style={{ color: "white" }}>
               {video === true ? <VideocamIcon /> : <VideocamOffIcon />}
             </IconButton>
@@ -610,7 +685,7 @@ export default function VideoMeetComponent() {
                 <ChatIcon />{" "}
               </IconButton>
             </Badge>
-          </div>
+          </div> */}
 
           <video
             className={styles.meetUserVideo}
