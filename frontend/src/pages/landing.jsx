@@ -2,17 +2,44 @@ import React from "react";
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import server from "../environment";
 
 const LandingPage = () => {
+  const { handleUserGetByToken, userData } = React.useContext(AuthContext);
+  const [MCError, setMCError] = React.useState(false);
+  const [MeetingCode, setMeetingCode] = React.useState("HMK");
+  const navigate = useNavigate();
 
-  const { handleUserGetByToken, userData } =
-    React.useContext(AuthContext);
   React.useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       handleUserGetByToken(token);
     }
   }, []);
+
+  const handleJoinMeetingClick = async () => {
+    const UserMeetingCode = prompt("Enter Meeting Code:");
+    if (UserMeetingCode != null && UserMeetingCode.trim() !== "") {
+      setMeetingCode(UserMeetingCode);
+      console.log(UserMeetingCode);
+      // check either meeting avaible or not
+      const res = await fetch(`${server}/api/v1/meetings/check`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ meetingId: UserMeetingCode }),
+      });
+      const data = await res.json();
+      if (data.status === 200) {
+        navigate(`/${UserMeetingCode}`);
+        console.log(data);
+      } else {
+        console.log(data);
+        setMCError(true);
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center font-sans">
@@ -66,7 +93,7 @@ const LandingPage = () => {
         <div className="relative grid grid-cols-1 lg:grid-cols-2 px-12 pb-20 pt-10">
           {/* Left Content */}
           <div className="z-10 max-w-lg">
-            <h2 className="text-6xl font-extrabold text-[#0A1D3C] leading-[1.15] mb-6">
+            <h2 className="md:text-6xl text-4xl font-bold text-[#0A1D3C] leading-[1.15] mb-4xl font-extrabold text-[#0A1D3C] leading-[1.15] mb-6">
               Seamless Video
               <br />
               Communication,
@@ -105,14 +132,25 @@ const LandingPage = () => {
                   </button>
                 </Link>
               ) : (
-                <Link to="/auth">
-                  <button className="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
-                    <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
-                    Start Free Trial
-                  </button>
-                </Link>
+                <>
+                  <Link to="/auth">
+                    <button className="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+                      <span className="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+                      Start Free Trial
+                    </button>
+                  </Link>
+                </>
               )}
+
+              <button onClick={handleJoinMeetingClick} className="text-red-400">
+                Have a Code Mee
+              </button>
             </div>
+            {MCError && (
+              <p className="text-red-500 mb-5 -mt-10 font-medium">
+                Invalid Meeting Code Or Meeting Not Exists!
+              </p>
+            )}
 
             <div className="flex gap-6">
               <div className="flex items-center gap-2 text-gray-600 font-medium">

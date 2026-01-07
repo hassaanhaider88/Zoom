@@ -205,9 +205,7 @@ export default function Authentication() {
                   ? "Login "
                   : "Register"}
               </button>
-              <button>
-                <Link href="/">Back to Home</Link>
-              </button>
+              <Link to="/">Back to Home</Link>
             </Box>
           </Box>
         </Grid>
