@@ -7,7 +7,7 @@ import { connectToSocket } from "./controllers/socketManager.js";
 
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
-import { CheckMeetingExists } from "./controllers/Meeting.controller.js";
+import { CencelMeetingAvailability, CheckMeetingExists } from "./controllers/Meeting.controller.js";
 
 dotenv.config();
 const app = express();
@@ -22,6 +22,7 @@ app.use(express.urlencoded({ limit: "40kb", extended: true }));
 app.use("/api/v1/users", userRoutes);
 
 app.post("/api/v1/meetings/check", CheckMeetingExists);
+app.post("/api/v1/meetings/cancel", CencelMeetingAvailability);
 
 app.get("/", (req, res) => {
   res.send("API IS WORKING");

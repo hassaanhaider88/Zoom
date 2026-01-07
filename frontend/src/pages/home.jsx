@@ -25,7 +25,7 @@ function HomeComponent() {
     <>
       <nav className="flex sm:flex-row flex-col items-center justify-between px-12 py-8">
         <div className="flex  items-center gap-12">
-          <img src="./Logo.png" alt="logo" className="w-32 h-14 object-cover" />
+          <img onClick={()=>navigate('/')} src="./Logo.png" alt="logo" className="w-32 cursor-pointer h-14 object-cover" />
           <div className="hidden md:flex gap-8 text-gray-600 font-medium">
             <a
               href="https://hassaan-haider.netlify.app"

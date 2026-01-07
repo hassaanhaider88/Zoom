@@ -30,4 +30,26 @@ const CheckMeetingExists = async (req, res) => {
   }
 };
 
-export { CheckMeetingExists };
+const CencelMeetingAvailability = async (req, res) => {
+  try {
+    const { meetingId } = req.body;
+    if (!meetingId || meetingId.trim() === "") {
+      return res.status(400).json({ message: "Meeting ID is required" });
+    }
+    const meeting = await Meeting.findOne({ meetingCode: meetingId });
+    if (meeting) {
+      await Meeting.updateOne({ meetingCode: meetingId }, { IsLiveNow: false });
+      return res.json({
+        status: 200,
+        message: "Meeting availability canceled",
+      });
+    } else {
+      return res.json({
+        status: 404,
+        message: "Meeting not found",
+      });
+    }
+  } catch (error) {}
+};
+
+export { CheckMeetingExists,CencelMeetingAvailability };

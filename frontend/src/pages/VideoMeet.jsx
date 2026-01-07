@@ -496,26 +496,48 @@ export default function VideoMeetComponent() {
     getMedia();
   };
 
+  let hanldeConnectToTobby = () => {
+    if (username.trim() !== "") {
+      connect();
+    } else {
+      alert("Username cannot be empty");
+    }
+  };
+
   return (
     <div>
       {askForUsername === true ? (
-        <div>
-          <h2>Enter into Lobby </h2>
-          <TextField
-            id="outlined-basic"
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            variant="outlined"
-          />
-          <Button variant="contained" onClick={connect}>
-            Connect
-          </Button>
-
-          <div>
-            <video ref={localVideoref} autoPlay muted></video>
+        <>
+          <h2 className="text-4xl w-full overflow-hidden text-center mt-3 font-semibold">
+            Enter into Lobby{" "}
+          </h2>
+          <div className="flex md:flex-row px-5 md:px-10 gap-5 flex-col md:items-center md:justify-center md:h-screen md:w-screen">
+            <div className="flex gap-4 w-1/2">
+              <TextField
+                id="outlined-basic"
+                label="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                variant="outlined"
+                className="w-full"
+              />
+              <button
+                className="py-2 px-4 rounded-2xl text-white bg-red-700 active:scale-95 duration-300 transition-all"
+                onClick={hanldeConnectToTobby}
+              >
+                Connect
+              </button>
+            </div>
+            <div>
+              <video
+                ref={localVideoref}
+                className="w-full h-full rounded-3xl"
+                autoPlay
+                muted
+              ></video>
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <div className={styles.meetVideoContainer}>
           {showModal ? (

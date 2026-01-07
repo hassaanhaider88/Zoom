@@ -13,6 +13,7 @@ export default function History() {
     const fetchHistory = async () => {
       try {
         const history = await getHistoryOfUser();
+        console.log(history);
         setMeetings(history);
       } catch {
         console.log("Error fetching history");
@@ -60,6 +61,11 @@ export default function History() {
               sx={{
                 borderRadius: 2,
                 transition: "0.2s",
+                display: "flex",
+                justifyContent: "space-between",
+                paddingLeft: 10,
+                paddingRight: 10,
+                alignItems: "center",
                 "&:hover": {
                   boxShadow: 3,
                 },
@@ -86,6 +92,10 @@ export default function History() {
                   Date: {formatDate(e.date)}
                 </Typography>
               </CardContent>
+              <div>
+                Meeting Is {e.IsLiveNow ? "Live" : "Ended"} <br />
+              <button>Delete</button>
+              </div>
             </Card>
           ))}
         </Box>
