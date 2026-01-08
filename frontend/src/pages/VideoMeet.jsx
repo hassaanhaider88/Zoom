@@ -12,6 +12,7 @@ import ScreenShareIcon from "@mui/icons-material/ScreenShare";
 import StopScreenShareIcon from "@mui/icons-material/StopScreenShare";
 import ChatIcon from "@mui/icons-material/Chat";
 import server from "../environment";
+import { useNavigate } from "react-router-dom";
 
 const server_url = server;
 
@@ -22,6 +23,7 @@ const peerConfigConnections = {
 };
 
 export default function VideoMeetComponent() {
+  const navigate = useNavigate();
   var socketRef = useRef();
   let socketIdRef = useRef();
 
@@ -37,7 +39,7 @@ export default function VideoMeetComponent() {
 
   let [screen, setScreen] = useState();
 
-  let [showModal, setModal] = useState(true);
+  let [showModal, setModal] = useState(false);
 
   let [screenAvailable, setScreenAvailable] = useState();
 
@@ -63,7 +65,7 @@ export default function VideoMeetComponent() {
   useEffect(() => {
     console.log("HELLO");
     getPermissions();
-  });
+  }, []);
 
   let getDislayMedia = () => {
     if (screen) {
@@ -448,7 +450,7 @@ export default function VideoMeetComponent() {
     if (screen !== undefined) {
       getDislayMedia();
     }
-  }, [screen]);
+  }, []);
   let handleScreen = () => {
     setScreen(!screen);
   };
@@ -458,7 +460,7 @@ export default function VideoMeetComponent() {
       let tracks = localVideoref.current.srcObject.getTracks();
       tracks.forEach((track) => track.stop());
     } catch (e) {}
-    window.location.href = "/";
+    navigate("/");
   };
 
   let openChat = () => {
@@ -504,7 +506,7 @@ export default function VideoMeetComponent() {
   };
 
   const hanldeSendMessage = () => {
-    console.log()
+    console.log();
     if (message.trim() !== "") {
       sendMessage();
     } else {
@@ -629,7 +631,7 @@ export default function VideoMeetComponent() {
           )}
 
           <div className={styles.dock}>
-            <IconButton  onClick={handleVideo}>
+            <IconButton onClick={handleVideo}>
               {video ? <VideocamIcon /> : <VideocamOffIcon />}
             </IconButton>
 
@@ -647,67 +649,40 @@ export default function VideoMeetComponent() {
               </IconButton>
             )}
 
-            <Badge badgeContent={messages.length} max={9}  color="error">
+            <Badge badgeContent={messages.length} max={9} color="error">
               <IconButton onClick={() => setModal(!showModal)}>
                 <ChatIcon />
               </IconButton>
             </Badge>
           </div>
 
-          {/* <div className={styles.buttonContainers}>
-            <IconButton onClick={handleVideo} style={{ color: "white" }}>
-              {video === true ? <VideocamIcon /> : <VideocamOffIcon />}
-            </IconButton>
-            <IconButton onClick={handleEndCall} style={{ color: "red" }}>
-              <CallEndIcon />
-            </IconButton>
-            <IconButton onClick={handleAudio} style={{ color: "white" }}>
-              {audio === true ? <MicIcon /> : <MicOffIcon />}
-            </IconButton>
+          <div className="h-full px-4 gap-4 flex flex-col justify-start items-start z-10 relative w-full">
+            <video
+              className="md:w-[70%] w-full mt-2 h-[60%] overflow-hidden  rounded-2xl"
+              ref={localVideoref}
+              autoPlay
+              muted
+            ></video>
 
-            {screenAvailable === true ? (
-              <IconButton onClick={handleScreen} style={{ color: "white" }}>
-                {screen === true ? (
-                  <ScreenShareIcon />
-                ) : (
-                  <StopScreenShareIcon />
-                )}
-              </IconButton>
-            ) : (
-              <></>
-            )}
-
-            <Badge badgeContent={newMessages} max={999} color="orange">
-              <IconButton
-                onClick={() => setModal(!showModal)}
-                style={{ color: "white" }}
-              >
-                <ChatIcon />{" "}
-              </IconButton>
-            </Badge>
-          </div> */}
-
-          <video
-            className={styles.meetUserVideo}
-            ref={localVideoref}
-            autoPlay
-            muted
-          ></video>
-
-          <div className={styles.conferenceView}>
-            {videos.map((video) => (
-              <div key={video.socketId}>
-                <video
-                  data-socket={video.socketId}
-                  ref={(ref) => {
-                    if (ref && video.stream) {
-                      ref.srcObject = video.stream;
-                    }
-                  }}
-                  autoPlay
-                ></video>
-              </div>
-            ))}
+            <div className="w-full flex gap-4  h-[200px]">
+              {videos.map((video) => {
+                console.log(video);
+                return (
+                  <div key={video.socketId}>
+                    <video
+                      className="w-full h-full rounded-3xl"
+                      data-socket={video.socketId}
+                      ref={(ref) => {
+                        if (ref && video.stream) {
+                          ref.srcObject = video.stream;
+                        }
+                      }}
+                      autoPlay
+                    ></video>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

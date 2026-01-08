@@ -32,8 +32,13 @@ const LandingPage = () => {
       });
       const data = await res.json();
       if (data.status === 200) {
-        navigate(`/${UserMeetingCode}`);
-        console.log(data);
+        if (data.meetingExists.IsLiveNow == true) {
+          navigate(`/${UserMeetingCode}`);
+          console.log(data);
+        } else {
+          setMCError(true);
+          console.log(data);
+        }
       } else {
         console.log(data);
         setMCError(true);
