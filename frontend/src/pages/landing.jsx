@@ -187,26 +187,30 @@ const LandingPage = () => {
                   </span>
                   {/* <Video size={16} className="text-gray-500" /> */}
                 </div>
-                <div className="flex -space-x-2">
+                <div className="flex animate-bounce-slow -space-x-2">
                   {[1, 2, 3].map((i) => (
                     <img
                       key={i}
                       className="w-8 h-8 rounded-full border-2 border-white"
-                      src={`https://i.pravatar.cc/150?u=${i}`}
+                      src={`https://i.pravatar.cc/150?u=${
+                        i + Math.floor(Math.random() * 10)
+                      }`}
                       alt="user"
                     />
                   ))}
                   <div className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-[10px] font-bold">
-                    +4
+                    +{Math.floor(Math.random() * 13 + 1)}
                   </div>
                 </div>
               </div>
 
               {/* Floating Card: Audio/Waveform */}
-              <div className="absolute -right-8 bottom-40 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center gap-4">
+              <div className="absolute  -right-8 bottom-40 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center gap-4">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src="https://i.pravatar.cc/150?u=9"
+                  src={`https://i.pravatar.cc/150?u=${Math.floor(
+                    Math.random() * 13 + 1
+                  )}`}
                   alt="user"
                 />
                 <div className="flex gap-1 items-end h-6">
@@ -218,14 +222,18 @@ const LandingPage = () => {
                     ></div>
                   ))}
                 </div>
-                <div className="text-lg">🤣</div>
+                <div className="text-lg">
+                  <img className="h-12 bg-cover w-12" src="https://i.pinimg.com/originals/46/ca/70/46ca7085cb5f88e8bce70b00859787d6.png" alt="" />
+                </div>
               </div>
 
               {/* Floating Card: Chat Message */}
-              <div className="absolute -left-4 bottom-10 bg-orange-50/90 backdrop-blur-md p-3 rounded-2xl shadow-xl flex items-center gap-3 border border-orange-100">
+              <div className="absolute animate-bounce-slow -left-4 bottom-10 bg-orange-50/90 backdrop-blur-md p-3 rounded-2xl shadow-xl flex items-center gap-3 border border-orange-100">
                 <img
                   className="w-10 h-10 rounded-full object-cover"
-                  src="https://i.pravatar.cc/150?u=12"
+                  src={`https://i.pravatar.cc/150?u=${Math.floor(
+                    Math.random() * 13 + 1
+                  )}`}
                   alt="user"
                 />
                 <div>
